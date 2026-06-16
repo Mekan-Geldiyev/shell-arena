@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; font-family: sans-serif; background: #2c3e50; }
+        #renderCanvas { width: 100%; height: 100%; position: absolute; }
+        
+        .ui { position: absolute; z-index: 10; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; }
+        
+        
+        .auth-container { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 8px; }
+        
+                .profile-card { background: rgba(0,0,0,0.8); padding: 30px; border-radius: 10px; text-align: center; display: none; }
+        
+        .play-btn { margin-top: 20px; padding: 20px 60px; font-size: 30px; background: #FF4500; border: none; color: white; cursor: pointer; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="ui">
+        <div class="auth-container">
+            <label>Sign In:</label>
+            <select id="emailSelect" onchange="loadProfile()">
+                <option value="">Select Account</option>
+                <option value="mekang@gmail.com">mekang@gmail.com</option>
+                <option value="shohrat@gmail.com">shohrat@gmail.com</option>
+            </select>
+        </div>
+
+        <div id="profileCard" class="profile-card">
+            <h2>Player Profile</h2>
+            <p>Email: <span id="dispEmail"></span></p>
+            <p>Kills: 125 | Eggs: 843</p>
+            <button class="play-btn" onclick="startGame()">PLAY</button>
+        </div>
+    </div>
+
+    <canvas id="renderCanvas"></canvas>
+
+    <script>
+        function loadProfile() {
+            const email = document.getElementById('emailSelect').value;
+            if (email) {
+                document.getElementById('dispEmail').innerText = email;
+                document.getElementById('profileCard').style.display = 'block';
+            }
+        }
+
+        function startGame() {
+            document.querySelector('.ui').style.display = 'none';
+            document.getElementById("renderCanvas").requestPointerLock();
+        }
+
+               const canvas = document.getElementById("renderCanvas");
+        const engine = new BABYLON.Engine(canvas, true);
+        const scene = new BABYLON.Scene(engine);
+        new BABYLON.FreeCamera("cam", new BABYLON.Vector3(0, 5, -10), scene);
+        new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+        engine.runRenderLoop(() => scene.render());
+    </script>
+</body>
+</html>
